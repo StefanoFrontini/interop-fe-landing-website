@@ -182,6 +182,7 @@ const TopProducersBySubscribers = ({ data }: { data: TopProducersBySubscribersMe
         .sort((a, b) => b.subscribersCount - a.subscribersCount)
         .map((y) => [x.producerName, y.name, formatThousands(y.subscribersCount).toString()])
     )
+    console.log('body', body)
 
     return { head, body }
   }, [currentData, filteredCurrentData])

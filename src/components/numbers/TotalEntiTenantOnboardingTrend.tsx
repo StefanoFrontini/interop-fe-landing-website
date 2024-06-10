@@ -1,13 +1,22 @@
 /* eslint-disable */
-import { SeriesDataLineChart, TenantOnboardingTrendMetric } from '@/models/numbers.models'
+import {
+  SerieDataLineChart,
+  SeriesDataLineChart,
+  TenantOnboardingTrendMetric,
+} from '@/models/numbers.models'
 import { formatThousands, toFormattedNumericDate } from '@/utils/formatters.utils'
 import { Typography, useMediaQuery, useTheme } from '@mui/material'
 import * as ECharts from 'echarts'
 import React from 'react'
 import { ChartAndTableTabs, TableData } from './ChartAndTableTabs'
 // import GovItLink from './GovItLink'
-import { PRIMARY_BLUE } from '@/configs/constants.config'
+import { LINE_CHART_ENTI_PRIVATI_COLOR, PRIMARY_BLUE } from '@/configs/constants.config'
 import { optionLineChart } from '@/utils/charts.utils'
+
+enum SeriesDataEnum {
+  PublicTenantsData = 1,
+  PrivateTenantsData = 2,
+}
 
 const TotalEntiTenantOnboardingTrend = ({ data }: { data: TenantOnboardingTrendMetric }) => {
   const fontFamily = useTheme().typography.fontFamily
@@ -20,19 +29,34 @@ const TotalEntiTenantOnboardingTrend = ({ data }: { data: TenantOnboardingTrendM
     toFormattedNumericDate(new Date(d.date)),
     formatThousands(d.count),
   ])
+
   const dateForList: string[] = sortedData.map((d) => toFormattedNumericDate(new Date(d.date)))
   const totalData: number[] = sortedData.map((d) => d.count)
-  const seriesData: SeriesDataLineChart = []
+  const publicTenantsData = totalData.map((d) => 0.9 * d)
+  const privateTenantsData = totalData.map((d) => 0.1 * d)
+  // const seriesData: SeriesDataLineChart = []
 
-  const singleChartTotal = {
+  const publicTenantsChart: SerieDataLineChart = {
+    id: SeriesDataEnum.PublicTenantsData,
     type: 'line',
     stack: 'Total',
-    name: 'Enti Totali',
+    name: 'enti pubblici',
     showSymbol: false,
-    data: totalData,
+    data: publicTenantsData,
     color: PRIMARY_BLUE,
   }
-  seriesData.push(singleChartTotal)
+  // seriesData.push(publicTenantsChart)
+  const privateTenantsChart: SerieDataLineChart = {
+    id: SeriesDataEnum.PrivateTenantsData,
+    type: 'line',
+    stack: 'Total',
+    name: 'enti privati',
+    showSymbol: false,
+    data: privateTenantsData,
+    color: LINE_CHART_ENTI_PRIVATI_COLOR,
+  }
+
+  const seriesData: SeriesDataLineChart = [privateTenantsChart, publicTenantsChart]
 
   const yAxis = {
     type: 'value',

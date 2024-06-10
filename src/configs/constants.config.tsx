@@ -194,6 +194,7 @@ export const DATI_GOV_IT_OVERVIEW_HREF = `${DATI_GOV_IT_DATASET_HREF}?tags=pdnd&
 export const PRIMARY_BLUE = '#0062C3'
 export const BAR_CHART_NUMERIC_LABEL_COLOR = '#555555'
 export const AVERAGE_COLOR = '#F067EC'
+export const LINE_CHART_ENTI_PRIVATI_COLOR = '#E69000'
 
 export const macroCategoriesOptions: Array<{
   value: MacroCategory['id']

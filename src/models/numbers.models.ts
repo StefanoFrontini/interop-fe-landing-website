@@ -50,6 +50,8 @@ export type SeriesDataLineChart = SerieDataLineChart[]
 export interface SerieDataLineChart {
   id?: number
   type: string
+  stack?: string
+  showSymbol?: boolean
   name: string
   data: number[]
   color?: string

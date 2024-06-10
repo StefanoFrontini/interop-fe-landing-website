@@ -1,5 +1,5 @@
-import { formatThousands, toFormattedLongDate } from './formatters.utils'
 import * as ECharts from 'echarts'
+import { formatThousands, toFormattedLongDate } from './formatters.utils'
 
 interface ChartItem {
   value: number
@@ -11,11 +11,18 @@ export function tooltipLinearChart(data: Array<unknown>, type: 'TOTAL' | 'GENERA
     (data as Array<{ axisValueLabel: string }>)[0].axisValueLabel
   )
   let tooltip = `<div style="display:flex; padding-bottom:15px;">
-                  <strong>${formattedDate}</strong>            
+                  <strong>${formattedDate}</strong>
                 </div>`
+  console.log('data', data)
   data.map((item) => {
     tooltip += formatTooltipItem(item as ChartItem, type)
   })
+
+  const total = data.reduce((acc: number, item) => acc + (item as ChartItem).value, 0)
+
+  tooltip += `<div style="margin-top: 5px"><strong> ${formatThousands(
+    total
+  )} enti totali</strong> </div>`
 
   return tooltip
 }
@@ -23,11 +30,11 @@ export function tooltipLinearChart(data: Array<unknown>, type: 'TOTAL' | 'GENERA
 function formatTooltipItem(item: ChartItem, type: 'TOTAL' | 'GENERAL'): string {
   const label =
     type === 'TOTAL'
-      ? `${item.value ? formatThousands(item.value) : 0} enti totali`
+      ? `${item.value ? formatThousands(Math.round(item.value)) : 0} ${item.seriesName}`
       : `${(item.value || 0).toFixed(1)}%`
 
   return `<div style="display:flex; justify-content: start;">
-  <div style="display:flex;  margin-right:5px;  display: flex; align-items: center;justify-content: center;">
+  <div style="display:flex;  margin-right:5px; align-items: center;justify-content: center;">
     <div style=" width: 10px;height: 10px;background: ${item.color}; border-radius:10px;"></div>
     </div>
     <div>
