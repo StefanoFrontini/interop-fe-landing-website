@@ -182,6 +182,10 @@ const TopEservices = ({ data }: TopEServicesProps) => {
         name: MACROCATEGORIES[key as MacroCategory['id']],
         type: 'bar',
         stack: 'total',
+        itemStyle: {
+          borderColor: '#fff',
+          borderWidth: 0.5,
+        },
         label: {
           show: false,
           position: 'insideRight',
@@ -190,6 +194,7 @@ const TopEservices = ({ data }: TopEServicesProps) => {
           backgroundColor: 'white',
           color: BAR_CHART_NUMERIC_LABEL_COLOR,
         },
+
         color: MACROCATEGORIES_COLORS_MAP.get(MACROCATEGORIES[key as MacroCategory['id']]),
         emphasis: {
           focus: 'series',
